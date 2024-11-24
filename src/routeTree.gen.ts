@@ -12,8 +12,6 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
-import { Route as SteamdirUserdataImport } from './routes/_steamdir.userdata'
-import { Route as SteamdirUserdataUserIdImport } from './routes/_steamdir.userdata.$userId'
 
 // Create/Update Routes
 
@@ -21,18 +19,6 @@ const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
-} as any)
-
-const SteamdirUserdataRoute = SteamdirUserdataImport.update({
-  id: '/_steamdir/userdata',
-  path: '/userdata',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const SteamdirUserdataUserIdRoute = SteamdirUserdataUserIdImport.update({
-  id: '/$userId',
-  path: '/$userId',
-  getParentRoute: () => SteamdirUserdataRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -46,72 +32,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/_steamdir/userdata': {
-      id: '/_steamdir/userdata'
-      path: '/userdata'
-      fullPath: '/userdata'
-      preLoaderRoute: typeof SteamdirUserdataImport
-      parentRoute: typeof rootRoute
-    }
-    '/_steamdir/userdata/$userId': {
-      id: '/_steamdir/userdata/$userId'
-      path: '/$userId'
-      fullPath: '/userdata/$userId'
-      preLoaderRoute: typeof SteamdirUserdataUserIdImport
-      parentRoute: typeof SteamdirUserdataImport
-    }
   }
 }
 
 // Create and export the route tree
 
-interface SteamdirUserdataRouteChildren {
-  SteamdirUserdataUserIdRoute: typeof SteamdirUserdataUserIdRoute
-}
-
-const SteamdirUserdataRouteChildren: SteamdirUserdataRouteChildren = {
-  SteamdirUserdataUserIdRoute: SteamdirUserdataUserIdRoute,
-}
-
-const SteamdirUserdataRouteWithChildren =
-  SteamdirUserdataRoute._addFileChildren(SteamdirUserdataRouteChildren)
-
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/userdata': typeof SteamdirUserdataRouteWithChildren
-  '/userdata/$userId': typeof SteamdirUserdataUserIdRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/userdata': typeof SteamdirUserdataRouteWithChildren
-  '/userdata/$userId': typeof SteamdirUserdataUserIdRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/_steamdir/userdata': typeof SteamdirUserdataRouteWithChildren
-  '/_steamdir/userdata/$userId': typeof SteamdirUserdataUserIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/userdata' | '/userdata/$userId'
+  fullPaths: '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/userdata' | '/userdata/$userId'
-  id: '__root__' | '/' | '/_steamdir/userdata' | '/_steamdir/userdata/$userId'
+  to: '/'
+  id: '__root__' | '/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  SteamdirUserdataRoute: typeof SteamdirUserdataRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  SteamdirUserdataRoute: SteamdirUserdataRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -124,22 +77,11 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
-        "/_steamdir/userdata"
+        "/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
-    },
-    "/_steamdir/userdata": {
-      "filePath": "_steamdir.userdata.tsx",
-      "children": [
-        "/_steamdir/userdata/$userId"
-      ]
-    },
-    "/_steamdir/userdata/$userId": {
-      "filePath": "_steamdir.userdata.$userId.tsx",
-      "parent": "/_steamdir/userdata"
     }
   }
 }

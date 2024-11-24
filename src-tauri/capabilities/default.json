@@ -6,9 +6,8 @@
   "permissions": [
     "core:default",
     "shell:allow-open",
-    "fs:default",
-    "fs:allow-read-file",
     "dialog:default",
-    "store:default"
+    "store:default",
+    "fs:default"
   ]
 }

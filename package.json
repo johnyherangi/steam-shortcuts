@@ -20,9 +20,14 @@
     "@tauri-apps/plugin-fs": "~2",
     "@tauri-apps/plugin-shell": "^2",
     "@tauri-apps/plugin-store": "~2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.460.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.53.2"
+    "react-hook-form": "^7.53.2",
+    "tailwind-merge": "^2.5.4",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@tanstack/router-devtools": "^1.82.2",

@@ -1,5 +1,6 @@
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite"
 import viteReact from "@vitejs/plugin-react"
+import path from "path"
 import { defineConfig } from "vite"
 
 // @ts-expect-error process is a nodejs global
@@ -29,5 +30,9 @@ export default defineConfig(async () => ({
       // 3. tell vite to ignore watching `src-tauri`
       ignored: ["**/src-tauri/**"],
     },
+  },
+
+  alias: {
+    "@": path.resolve(__dirname, "./src"),
   },
 }))

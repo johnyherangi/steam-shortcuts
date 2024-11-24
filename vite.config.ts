@@ -1,6 +1,6 @@
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite"
 import viteReact from "@vitejs/plugin-react"
-import path from "path"
+import { fileURLToPath, URL } from "url"
 import { defineConfig } from "vite"
 
 // @ts-expect-error process is a nodejs global
@@ -32,7 +32,13 @@ export default defineConfig(async () => ({
     },
   },
 
-  alias: {
-    "@": path.resolve(__dirname, "./src"),
+  resolve: {
+    alias: [
+      { find: "@", replacement: fileURLToPath(new URL("./src", import.meta.url)) },
+      {
+        find: "@components",
+        replacement: fileURLToPath(new URL("./src/components", import.meta.url)),
+      },
+    ],
   },
 }))

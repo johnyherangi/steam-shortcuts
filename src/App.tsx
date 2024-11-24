@@ -1,17 +1,17 @@
-import { useState } from "react";
-import "./App.css";
-import editSvg from "./assets/edit.svg";
+import { useState } from "react"
+import "./App.css"
+import editSvg from "./assets/edit.svg"
 
-import { open } from "@tauri-apps/plugin-dialog";
+import { open } from "@tauri-apps/plugin-dialog"
 
 function App() {
   // const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
+  const [name, setName] = useState("")
 
   // async function greet() {
   //   // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
   //   setGreetMsg(await invoke("greet", { name }));
-    
+
   // }
 
   return (
@@ -25,7 +25,7 @@ function App() {
       <form
         className="row"
         onSubmit={(e) => {
-          e.preventDefault();
+          e.preventDefault()
           // greet();
         }}
       >
@@ -35,13 +35,18 @@ function App() {
           onChange={(e) => setName(e.currentTarget.value)}
           placeholder="Full path to file..."
         />
-        <button type="button" onClick={() => {
-          open().then(v => setName(v ?? ""))
-        }}>Browse</button>
+        <button
+          type="button"
+          onClick={() => {
+            open().then((v) => setName(v ?? ""))
+          }}
+        >
+          Browse
+        </button>
       </form>
       {/* <p>{greetMsg}</p> */}
     </main>
-  );
+  )
 }
 
-export default App;
+export default App

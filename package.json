@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint",
     "lint-fix": "eslint --ext .{js,ts} --fix",
-    "prettier": "prettier --write ./**/*.{js,json,md,ts,yml}",
+    "prettier": "prettier --config ./.prettierrc.json --write ./**/*.{js,jsx,json,md,ts,tsx,yml}",
     "preview": "vite preview",
     "tauri": "tauri",
     "prepare": "husky"
@@ -38,6 +38,8 @@
     "lint-staged": "^15.2.10",
     "postcss": "^8.4.49",
     "prettier": "3.3.3",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "prettier-plugin-tailwindcss": "^0.6.9",
     "tailwindcss": "^3.4.15",
     "typescript": "^5.2.2",
     "vite": "^5.3.1"

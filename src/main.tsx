@@ -1,9 +1,13 @@
 import { createRouter, RouterProvider } from "@tanstack/react-router"
+import { Buffer as BufferPolyfill } from "buffer"
 import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
 import { ConfigProvider } from "./context"
 import "./main.css"
 import { routeTree } from "./routeTree.gen"
+
+declare var Buffer: typeof BufferPolyfill
+globalThis.Buffer = BufferPolyfill
 
 const router = createRouter({ routeTree })
 

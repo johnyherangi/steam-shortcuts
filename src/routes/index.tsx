@@ -126,7 +126,7 @@ function ShortcutsForm() {
     <Card className="flex flex-col gap-2 p-4">
       <p>Shortcuts</p>
       {shortcuts?.shortcuts &&
-        Object.entries(shortcuts.shortcuts).map((entry) => <div>{entry[1]}</div>)}
+        Object.entries(shortcuts.shortcuts).map((entry) => <div>{entry[1].AppName}</div>)}
     </Card>
   )
 }
@@ -134,12 +134,9 @@ function ShortcutsForm() {
 async function loadShortcutsVdf(steamDir: string, userId: string) {
   const shortcutsPath = await path.join(steamDir, "userdata", userId, "config", "shortcuts.vdf")
   try {
-    const result = await invoke("read_file", { path: shortcutsPath })
-    if (typeof result === "string") {
-      return undefined
-    }
+    const result: ArrayBuffer = await invoke("read_file", { path: shortcutsPath })
 
-    const shortcuts = readVdf(Buffer.from(result as Uint8Array))
+    const shortcuts = readVdf(Buffer.from(result))
     return shortcuts
   } catch (error) {
     alert(String(error))

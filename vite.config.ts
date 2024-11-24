@@ -1,15 +1,13 @@
-import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
-import viteReact from '@vitejs/plugin-react';
-import { defineConfig } from "vite";
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite"
+import viteReact from "@vitejs/plugin-react"
+import { defineConfig } from "vite"
 
 // @ts-expect-error process is a nodejs global
-const host = process.env.TAURI_DEV_HOST;
+const host = process.env.TAURI_DEV_HOST
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
-  plugins: [
-    TanStackRouterVite(),
-    viteReact()],
+  plugins: [TanStackRouterVite(), viteReact()],
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //
@@ -32,4 +30,4 @@ export default defineConfig(async () => ({
       ignored: ["**/src-tauri/**"],
     },
   },
-}));
+}))

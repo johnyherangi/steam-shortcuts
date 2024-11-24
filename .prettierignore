@@ -1,4 +1,5 @@
-# Ignore artifacts:
-dist
 coverage
+dist
+gen
+node_modules
 target

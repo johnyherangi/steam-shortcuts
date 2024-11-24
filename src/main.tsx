@@ -1,6 +1,7 @@
 import { createRouter, RouterProvider } from "@tanstack/react-router"
 import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
+import { ConfigProvider } from "./context"
 import "./main.css"
 import { routeTree } from "./routeTree.gen"
 
@@ -18,7 +19,9 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <ConfigProvider>
+        <RouterProvider router={router} />
+      </ConfigProvider>
     </StrictMode>,
   )
 }

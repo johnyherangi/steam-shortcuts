@@ -13,7 +13,19 @@ import {
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
 
-const Form = FormProvider
+const Form = ({
+  children,
+  onSubmit,
+  ...methods
+}: React.ComponentProps<typeof FormProvider> & {
+  onSubmit?: React.FormEventHandler<HTMLFormElement>
+}) => {
+  return (
+    <FormProvider {...methods}>
+      <form onSubmit={onSubmit}>{children}</form>
+    </FormProvider>
+  )
+}
 
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,

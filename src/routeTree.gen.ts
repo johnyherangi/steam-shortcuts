@@ -8,87 +8,143 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from "@tanstack/react-router"
-
 // Import Routes
 
-import { Route as rootRoute } from "./routes/__root"
-
-// Create Virtual Routes
-
-const AboutLazyImport = createFileRoute("/about")()
-const IndexLazyImport = createFileRoute("/")()
+import { Route as rootRoute } from './routes/__root'
+import { Route as SteamImport } from './routes/steam'
+import { Route as IndexImport } from './routes/index'
+import { Route as SteamUserdataImport } from './routes/steam.userdata'
+import { Route as SteamUserdataUserIdImport } from './routes/steam.userdata.$userId'
 
 // Create/Update Routes
 
-const AboutLazyRoute = AboutLazyImport.update({
-  id: "/about",
-  path: "/about",
+const SteamRoute = SteamImport.update({
+  id: '/steam',
+  path: '/steam',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import("./routes/about.lazy").then((d) => d.Route))
+} as any)
 
-const IndexLazyRoute = IndexLazyImport.update({
-  id: "/",
-  path: "/",
+const IndexRoute = IndexImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import("./routes/index.lazy").then((d) => d.Route))
+} as any)
+
+const SteamUserdataRoute = SteamUserdataImport.update({
+  id: '/userdata',
+  path: '/userdata',
+  getParentRoute: () => SteamRoute,
+} as any)
+
+const SteamUserdataUserIdRoute = SteamUserdataUserIdImport.update({
+  id: '/$userId',
+  path: '/$userId',
+  getParentRoute: () => SteamUserdataRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/": {
-      id: "/"
-      path: "/"
-      fullPath: "/"
-      preLoaderRoute: typeof IndexLazyImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    "/about": {
-      id: "/about"
-      path: "/about"
-      fullPath: "/about"
-      preLoaderRoute: typeof AboutLazyImport
+    '/steam': {
+      id: '/steam'
+      path: '/steam'
+      fullPath: '/steam'
+      preLoaderRoute: typeof SteamImport
       parentRoute: typeof rootRoute
+    }
+    '/steam/userdata': {
+      id: '/steam/userdata'
+      path: '/userdata'
+      fullPath: '/steam/userdata'
+      preLoaderRoute: typeof SteamUserdataImport
+      parentRoute: typeof SteamImport
+    }
+    '/steam/userdata/$userId': {
+      id: '/steam/userdata/$userId'
+      path: '/$userId'
+      fullPath: '/steam/userdata/$userId'
+      preLoaderRoute: typeof SteamUserdataUserIdImport
+      parentRoute: typeof SteamUserdataImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface SteamUserdataRouteChildren {
+  SteamUserdataUserIdRoute: typeof SteamUserdataUserIdRoute
+}
+
+const SteamUserdataRouteChildren: SteamUserdataRouteChildren = {
+  SteamUserdataUserIdRoute: SteamUserdataUserIdRoute,
+}
+
+const SteamUserdataRouteWithChildren = SteamUserdataRoute._addFileChildren(
+  SteamUserdataRouteChildren,
+)
+
+interface SteamRouteChildren {
+  SteamUserdataRoute: typeof SteamUserdataRouteWithChildren
+}
+
+const SteamRouteChildren: SteamRouteChildren = {
+  SteamUserdataRoute: SteamUserdataRouteWithChildren,
+}
+
+const SteamRouteWithChildren = SteamRoute._addFileChildren(SteamRouteChildren)
+
 export interface FileRoutesByFullPath {
-  "/": typeof IndexLazyRoute
-  "/about": typeof AboutLazyRoute
+  '/': typeof IndexRoute
+  '/steam': typeof SteamRouteWithChildren
+  '/steam/userdata': typeof SteamUserdataRouteWithChildren
+  '/steam/userdata/$userId': typeof SteamUserdataUserIdRoute
 }
 
 export interface FileRoutesByTo {
-  "/": typeof IndexLazyRoute
-  "/about": typeof AboutLazyRoute
+  '/': typeof IndexRoute
+  '/steam': typeof SteamRouteWithChildren
+  '/steam/userdata': typeof SteamUserdataRouteWithChildren
+  '/steam/userdata/$userId': typeof SteamUserdataUserIdRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  "/": typeof IndexLazyRoute
-  "/about": typeof AboutLazyRoute
+  '/': typeof IndexRoute
+  '/steam': typeof SteamRouteWithChildren
+  '/steam/userdata': typeof SteamUserdataRouteWithChildren
+  '/steam/userdata/$userId': typeof SteamUserdataUserIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: "/" | "/about"
+  fullPaths: '/' | '/steam' | '/steam/userdata' | '/steam/userdata/$userId'
   fileRoutesByTo: FileRoutesByTo
-  to: "/" | "/about"
-  id: "__root__" | "/" | "/about"
+  to: '/' | '/steam' | '/steam/userdata' | '/steam/userdata/$userId'
+  id:
+    | '__root__'
+    | '/'
+    | '/steam'
+    | '/steam/userdata'
+    | '/steam/userdata/$userId'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute
-  AboutLazyRoute: typeof AboutLazyRoute
+  IndexRoute: typeof IndexRoute
+  SteamRoute: typeof SteamRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
-  AboutLazyRoute: AboutLazyRoute,
+  IndexRoute: IndexRoute,
+  SteamRoute: SteamRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -102,14 +158,28 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/about"
+        "/steam"
       ]
     },
     "/": {
-      "filePath": "index.lazy.tsx"
+      "filePath": "index.tsx"
     },
-    "/about": {
-      "filePath": "about.lazy.tsx"
+    "/steam": {
+      "filePath": "steam.tsx",
+      "children": [
+        "/steam/userdata"
+      ]
+    },
+    "/steam/userdata": {
+      "filePath": "steam.userdata.tsx",
+      "parent": "/steam",
+      "children": [
+        "/steam/userdata/$userId"
+      ]
+    },
+    "/steam/userdata/$userId": {
+      "filePath": "steam.userdata.$userId.tsx",
+      "parent": "/steam/userdata"
     }
   }
 }

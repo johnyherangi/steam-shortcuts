@@ -33,12 +33,6 @@ export default defineConfig(async () => ({
   },
 
   resolve: {
-    alias: [
-      { find: "@", replacement: fileURLToPath(new URL("./src", import.meta.url)) },
-      {
-        find: "@components",
-        replacement: fileURLToPath(new URL("./src/components", import.meta.url)),
-      },
-    ],
+    alias: [{ find: "@", replacement: fileURLToPath(new URL("./src", import.meta.url)) }],
   },
 }))

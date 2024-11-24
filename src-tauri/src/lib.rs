@@ -1,9 +1,8 @@
-use std::fs;
-use tauri::command;
-
-#[command]
-fn read_file(path: String) -> Result<String, String> {
-    fs::read_to_string(&path).map_err(|e| e.to_string())
+use tauri::ipc::Response;
+#[tauri::command]
+fn read_file(path: String) -> Response {
+    let data = std::fs::read(path).unwrap();
+    tauri::ipc::Response::new(data)
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]

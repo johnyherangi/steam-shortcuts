@@ -133,12 +133,16 @@ function ShortcutsForm() {
 
 async function loadShortcutsVdf(steamDir: string, userId: string) {
   const shortcutsPath = await path.join(steamDir, "userdata", userId, "config", "shortcuts.vdf")
-  if (await exists(shortcutsPath)) {
-    alert("test")
-    const inBuffer = await invoke("read_file", { path: shortcutsPath })
-    const shortcuts = readVdf(Buffer.from([inBuffer]))
-    return shortcuts
-  }
+  try {
+    const result = await invoke("read_file", { path: shortcutsPath })
+    if (typeof result === "string") {
+      return undefined
+    }
 
-  return undefined
+    const shortcuts = readVdf(Buffer.from(result as Uint8Array))
+    return shortcuts
+  } catch (error) {
+    alert(String(error))
+    return undefined
+  }
 }

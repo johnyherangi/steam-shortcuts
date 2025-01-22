@@ -25,8 +25,6 @@ export function ShortcutsForm() {
 
   const shortcutsArr = Object.entries(shortcuts?.shortcuts ?? {}).map((e) => e[1])
 
-  console.log(shortcutsArr[0].tags)
-
   if (shortcutsArr.length === 0) {
     return <></>
   }
